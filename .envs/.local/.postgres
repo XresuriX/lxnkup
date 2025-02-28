@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=lxnkup
+POSTGRES_USER=BhmrTsHLaGotjVhVgZzoPbYWKYwgtfQc
+POSTGRES_PASSWORD=5eUsxk161Q75FJfqC3pd6SXCBZC958o5FqTbUQBsKG9fGyL6NLNQtwt1WbJVE1sb
