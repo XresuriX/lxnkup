@@ -12,7 +12,9 @@ celery worker -l info
 rabbitmqctl status
 pip install -r requirements/local.txt
 pre-commit install
+git remote -v
 git branch -M main  # Rename your current branch to 'main'
+git remote add origin
 git push -u origin main
 git commit -m "Initial commit"
 git add lxnkup/.envs/.production/.postgres
