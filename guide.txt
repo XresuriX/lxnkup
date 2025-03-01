@@ -87,3 +87,8 @@ NOTIFICATIONS_NOTIFICATION_MODEL = "xamayca.notifications.Notification"
 COMMENTS_APP = "django_comments_xtd"
 COMMENTS_XTD_MODEL = "xamayca.comments.models.Comments"
 COMMENTS_XTD_FORM_CLASS = "comments.forms.CommenstForm" """
+
+"""
+    likes = models.ManyToManyField(Profile, related_name="liked_post")
+    dislikes = models.ManyToManyField(Profile, related_name="disliked_post")
+"""

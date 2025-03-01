@@ -84,3 +84,11 @@ ACTSTREAM_SETTINGS = {
     "MANAGER": "actstream.managers.ActionManager",  # This allows you to manage actions
     "USE_JSONFIELD": True,  # Store additional context for the actions in JSONField
 }
+
+# Configure the notifications
+NOTIFICATIONS_NOTIFICATION_MODEL = "lxnkup.notifications.Notification"
+
+# Configure the commentsxtd
+COMMENTS_APP = "django_comments_xtd"
+COMMENTS_XTD_MODEL = "lxnkup.comments.models.Comments"
+COMMENTS_XTD_FORM_CLASS = "comments.forms.CommenstForm"
