@@ -74,3 +74,13 @@ INSTALLED_APPS += ["django_extensions"]
 CELERY_TASK_EAGER_PROPAGATES = True
 # Your stuff...
 # ------------------------------------------------------------------------------
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+]
+
+# Configure the activity stream
+ACTSTREAM_SETTINGS = {
+    "MANAGER": "actstream.managers.ActionManager",  # This allows you to manage actions
+    "USE_JSONFIELD": True,  # Store additional context for the actions in JSONField
+}

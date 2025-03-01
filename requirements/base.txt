@@ -19,3 +19,19 @@ django-allauth[mfa]==65.4.1  # https://github.com/pennersr/django-allauth
 django-crispy-forms==2.3  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==2024.10  # https://github.com/django-crispy-forms/crispy-bootstrap5
 django-redis==5.4.0  # https://github.com/jazzband/django-redis
+django-extensions==3.2.3
+django-ninja-extra==0.21.4
+django-ninja==1.3.0
+django-photologue==3.17
+ninja-schema==0.13.6
+django-notifications-hq==1.8.3
+django-jsonfield-backport==1.0.5
+django-activity-stream[jsonfield]==2.0.0
+setuptools==75.1.0
+pytest-mock==3.14.0
+django-model-utils==5.0.0
+pytz==2024.2
+django-taggit==6.1.0
+django-comments-xtd==2.10.0
+ninja-api-key==1.0.2
+django-cors-headers==4.7.0

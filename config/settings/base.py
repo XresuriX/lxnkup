@@ -79,11 +79,28 @@ THIRD_PARTY_APPS = [
     "allauth.mfa",
     "allauth.socialaccount",
     "django_celery_beat",
+    "ninja_extra",
+    "allauth.headless",
+    "allauth.usersessions",
+    "actstream",
+    "photologue",
+    "sortedm2m",
+    "django_comments_xtd",
+    "django_comments",
+    "corsheaders",
 ]
 
 LOCAL_APPS = [
     "lxnkup.users",
-    # Your stuff: custom apps go here
+    # "lxnkup.core",
+    # "lxnkup.comments",
+    # "lxnkup.activities",
+    # "lxnkup.gallery",
+    # "lxnkup.notifications",
+    # "lxnkup.posts",
+    # "lxnkup.profiles",
+    # "lxnkup.reports",
+    # "lxnkup.users","
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -135,6 +152,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",

@@ -36,7 +36,7 @@ docker compose -f docker-compose.local.yml run --rm django python manage.py make
 docker compose -f docker-compose.local.yml run --rm django python manage.py migrate
 docker compose -f docker-compose.local.yml run --rm django coverage run -m pytest --create-db
 docker compose -f docker-compose.local.yml run --rm django coverage report
-
+docker compose -f docker-compose.local.yml -f docker-compose.docs.yml up
 KURENTO_WS_URL = "ws://kurento:8888/kurento"
 
 nginx:
@@ -49,3 +49,41 @@ nginx:
     depends_on:
       - django
       - node
+
+ruff check                  # Lint files in the current directory.
+ruff check --fix            # Lint files in the current directory and fix any fixable errors.
+ruff check --watch          # Lint files in the current directory and re-lint on change.
+
+
+from lxnkup.comments.api import CommentsController
+from lxnkup.gallery.api import GalleriesModelController
+from lxnkup.gallery.api import PhotosModelController
+
+from lxnkup.activities.api import ActionController  # noqa: ERA001
+from lxnkup.notifications.api import NotificationController
+from lxnkup.posts.api import PostModelController
+from lxnkup.profiles.api import ProfileModelController
+from lxnkup.reports.api import ReportModelController
+
+
+app.register_controllers(ActionController),  # noqa: ERA001
+app.register_controllers(CommentsController)
+app.register_controllers(NotificationController)
+app.register_controllers(ProfileModelController)
+app.register_controllers(PostModelController)
+app.register_controllers(PhotosModelController)
+app.register_controllers(GalleriesModelController)
+app.register_controllers(ReportModelController)
+
+def suspended(sender, instance, created, **kwargs):
+    action.send(instance, verb='was saved')
+
+post_save.connect(my_handler, sender=MyModel)
+
+"""# Configure the notifications
+NOTIFICATIONS_NOTIFICATION_MODEL = "xamayca.notifications.Notification"
+
+# Configure the commentsxtd
+COMMENTS_APP = "django_comments_xtd"
+COMMENTS_XTD_MODEL = "xamayca.comments.models.Comments"
+COMMENTS_XTD_FORM_CLASS = "comments.forms.CommenstForm" """

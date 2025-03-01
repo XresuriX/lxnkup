@@ -1,0 +1,8 @@
+GET  http://localhost:8000/Xamayca/api/Profiles/all
+
+###
+GET  http://localhost:8000/Xamayca/api/Profiles/user/tester
+
+###
+PUT  http://localhost:8000/Xamayca/api/Profiles/user/1
+data: {"about": "new bio2"}
