@@ -63,4 +63,7 @@ class CoreModel(models.Model):
 
 
 class DummyCoreModel(CoreModel):
-    pass
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        app_label = "core"

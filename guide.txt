@@ -81,11 +81,11 @@ def suspended(sender, instance, created, **kwargs):
 post_save.connect(my_handler, sender=MyModel)
 
 """# Configure the notifications
-NOTIFICATIONS_NOTIFICATION_MODEL = "xamayca.notifications.Notification"
+NOTIFICATIONS_NOTIFICATION_MODEL = "LxnkUp.notifications.Notification"
 
 # Configure the commentsxtd
 COMMENTS_APP = "django_comments_xtd"
-COMMENTS_XTD_MODEL = "xamayca.comments.models.Comments"
+COMMENTS_XTD_MODEL = "LxnkUp.comments.models.Comments"
 COMMENTS_XTD_FORM_CLASS = "comments.forms.CommenstForm" """
 
 """

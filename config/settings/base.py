@@ -92,15 +92,15 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "lxnkup.users",
-    # "lxnkup.core",
-    # "lxnkup.comments",
-    # "lxnkup.activities",
-    # "lxnkup.gallery",
-    # "lxnkup.notifications",
-    # "lxnkup.posts",
-    # "lxnkup.profiles",
-    # "lxnkup.reports",
-    # "lxnkup.users","
+    "lxnkup.core",
+    "lxnkup.comments",
+    "lxnkup.activities",
+    "lxnkup.gallery",
+    "lxnkup.notifications",
+    "lxnkup.posts",
+    "lxnkup.profiles",
+    "lxnkup.reports",
+    "lxnkup.users",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

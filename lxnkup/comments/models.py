@@ -24,5 +24,5 @@ class Comments(XtdComment):
         verbose_name = _("Comment")
         verbose_name_plural = _("Comments")
         db_table_comment = (
-            "Xamayca comment model which inherits from django-comments-xtd"
+            "LxnkUp comment model which inherits from django-comments-xtd"
         )

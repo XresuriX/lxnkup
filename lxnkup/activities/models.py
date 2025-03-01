@@ -24,7 +24,7 @@ class Interactions(CoreModel):
         verbose_name = _("Interaction")
         verbose_name_plural = _("Interactions")
 
-        db_table_comment = "Interaction model for Xamayca"
+        db_table_comment = "Interaction model for LxnkUp"
 
     def __str__(self):
         return f"{self.interactions.profile.username} following"
