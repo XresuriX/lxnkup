@@ -84,6 +84,7 @@ class Reports(CoreModel):
     reported_content = GenericForeignKey("reported_content_type", "reported_object_id")
 
     class Meta:
+        app_label = "reports"
         ordering = ["-created_at"]
         verbose_name = _("Report")
         verbose_name_plural = _("Reports")

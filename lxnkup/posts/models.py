@@ -19,7 +19,7 @@ class Posts(CoreModel):
     body = models.TextField(max_length=500, blank=False, null=False)
     date_posted = models.DateTimeField(default=timezone.now)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    Comments = models.ForeignKey(
+    comments = models.ForeignKey(
         Comments,
         null=True,
         blank=True,

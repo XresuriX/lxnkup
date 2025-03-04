@@ -1,13 +1,13 @@
 import datetime
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
 
-from lxnkup.core.models import CoreModel
-
-# from lxnkup.reports.models import Reports  # noqa: ERA001
+from lxnkup.core.models import CoreModel  # type: ignore PGH003
+from lxnkup.reports.models import Reports
 from lxnkup.users.models import User
 
 
@@ -40,7 +40,7 @@ class Profile(CoreModel):
         help_text=STATUS_HELP_TEXT,
         db_index=True,
     )
-    # reports = GenericRelation(Reports)  # noqa: ERA001
+    reports = GenericRelation(Reports)
     # tags = TaggableManager()  # noqa: ERA001
 
     class Meta:

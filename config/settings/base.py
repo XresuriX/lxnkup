@@ -91,15 +91,14 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "lxnkup.users",
     "lxnkup.core",
-    "lxnkup.comments",
-    "lxnkup.activities",
-    "lxnkup.gallery",
-    "lxnkup.notifications",
-    "lxnkup.posts",
-    "lxnkup.profiles",
-    "lxnkup.reports",
+    "lxnkup.profiles.apps.ProfilesConfig",
+    "lxnkup.comments.apps.CommentsConfig",
+    "lxnkup.activities.apps.ActivitiesConfig",
+    "lxnkup.medialog.apps.MedialogConfig",
+    "lxnkup.notifications.apps.NotificationsConfig",
+    "lxnkup.posts.apps.PostsConfig",
+    "lxnkup.reports.apps.ReportsConfig",
     "lxnkup.users",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

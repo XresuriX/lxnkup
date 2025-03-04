@@ -1,8 +1,8 @@
 from ninja import ModelSchema  # type: ignore[PGH003]
 from ninja import Schema  # type: ignore[PGH003]
 
-from .models import Profile
-from .models import User
+from lxnkup.profiles.models import Profile
+from lxnkup.profiles.models import User
 
 
 class UserSchema(ModelSchema):

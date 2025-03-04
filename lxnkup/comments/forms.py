@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from django_comments_xtd.forms import XtdCommentForm
+from django_comments_xtd.forms import XtdCommentForm  # type: ignore PGH003
 
 
 class MyCommentForm(XtdCommentForm):
