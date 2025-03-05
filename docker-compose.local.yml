@@ -23,6 +23,20 @@ services:
       - '8000:8000'
     command: /start
 
+  frontend:
+      build:
+        context: ./frontend
+        dockerfile: ../compose/local/next/Dockerfile
+      image: lxnkup_local_nextjs
+      container_name: lxnkup_local_nextjs
+      volumes:
+        - ./frontend:/app/frontend
+        - /app/frontend/node_modules
+      environment:
+        - NODE_ENV=development
+      ports:
+        - "3000:3000"
+
   postgres:
     build:
       context: .
