@@ -33,7 +33,6 @@ class Posts(CoreModel):
     status = models.CharField(
         choices=STATUS.choices, default=STATUS.PUBLIC, max_length=10
     )
-    reposts_allowed = models.BooleanField(default=True)
     reports = GenericRelation(Reports)
     # tags = TaggableManager()  # noqa: ERA001
 
@@ -48,10 +47,8 @@ class Posts(CoreModel):
 
 
 class Reposts(Posts):
-    reposts = models.ManyToManyField(Profile, related_name="")
-
     class Meta:
-        app_label = "reposts"
+        app_label = "posts"
         verbose_name = _("Repost")
         verbose_name_plural = _("Reposts")
         db_table = "Lxnkup_reposts"

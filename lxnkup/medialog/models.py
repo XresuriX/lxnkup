@@ -47,6 +47,8 @@ class Video(models.Model):
     dislikes = models.ManyToManyField(Profile, related_name="video_dislike", blank=True)
     timed = models.BooleanField(default=False)
     duration = models.DurationField()
+    Comments = GenericRelation(Comments)
+    reports = GenericRelation(Reports)
 
     class Meta:
         verbose_name = _("video")

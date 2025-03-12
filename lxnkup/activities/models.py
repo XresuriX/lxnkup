@@ -28,20 +28,3 @@ class Interactions(CoreModel):
 
     def __str__(self):
         return f"{self.interactions.profile.username} following"
-
-    @property
-    def is_mutual_follow(self):
-        return (
-            Interactions.objects.filter(
-                follower=self.follower, followed=self.followed
-            ).exists()
-            and Interactions.objects.filter(
-                follower=self.followed, followed=self.follower
-            ).exists()
-        )
-
-    def get_user_followers(self):
-        return Interactions.objects.filter(followed=self.profile)
-
-    def get_user_following(self):
-        return Interactions.objects.filter(follower=self.profile)

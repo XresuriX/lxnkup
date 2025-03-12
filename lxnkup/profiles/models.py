@@ -51,7 +51,7 @@ class Profile(CoreModel):
         db_table_comment = "lxnkup profile model"
 
     def __str__(self):
-        return self.profile.username
+        return self.slug
 
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.
@@ -61,8 +61,8 @@ class Profile(CoreModel):
 
         """
         return reverse(
-            "profile:detail",
-            kwargs={"username": self.profile.slug},
+            "user:detail",
+            kwargs={"username": self.slug},
         )
 
     def account_status(self):

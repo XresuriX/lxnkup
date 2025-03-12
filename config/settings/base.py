@@ -98,7 +98,7 @@ LOCAL_APPS = [
     "lxnkup.medialog.apps.MedialogConfig",
     "lxnkup.notifications.apps.NotificationsConfig",
     "lxnkup.posts.apps.PostsConfig",
-    "lxnkup.reports.apps.ReportsConfig",
+    "lxnkup.reports",
     "lxnkup.users",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

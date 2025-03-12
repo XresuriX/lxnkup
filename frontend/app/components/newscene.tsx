@@ -1,5 +1,3 @@
-"use client"
-
 import { Vector3 } from '@babylonjs/core/Maths/math.vector'
 import React, { FC, useState } from 'react'
 import { Engine, Scene, useBeforeRender, useScene } from 'react-babylonjs'
