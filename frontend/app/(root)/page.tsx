@@ -1,6 +1,6 @@
 "use client"
-import App from "./components/newscene";
-import HtmlText from "./components/ex1";
+
+import HtmlText from "../components/ex1";
 
 export default function Home() {
   return (
