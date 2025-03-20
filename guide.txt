@@ -64,3 +64,40 @@ post_save.connect(my_handler, sender=MyModel)
     likes = models.ManyToManyField(Profile, related_name="liked_post")
     dislikes = models.ManyToManyField(Profile, related_name="disliked_post")
 """
+
+
+
+# Add to your Docker Compose
+coturn:
+  image: coturn/coturn
+  ports:
+    - "3478:3478/udp"
+    - "3478:3478/tcp"
+  environment:
+    - TURN_USERNAME=your_username
+    - TURN_PASSWORD=your_password
+  networks:
+    - app_network
+
+
+
+likes = models.ManyToManyField(Profile, related_name="video_like", blank=True)
+    dislikes = models.ManyToManyField(Profile, related_name="video_dislike", blank=True)
+    def number_of_likes(self):
+        return self.likes.count()
+
+    def number_of_dislikes(self):
+        return self.dislikes.count()
+
+
+
+
+@api_controller(
+    "/Bookmarks",
+    tags=["bookmarks"],
+    permissions=[permissions.IsAuthenticatedOrReadOnly],
+)
+class PostModelController(ModelControllerBase):
+    @route.get("all/", response=list[])
+    def get_s(self):
+        return Bookmarks.objects.all()

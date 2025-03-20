@@ -1,0 +1,4 @@
+The profile model is builded on django allauth user model as it comes pre configured with cookiecutter-django.
+Becasue of allauth's design I'll be configuring the adapter to autho create a profile once the user authenticates their email
+I'm using allauth headless so I'll need to properly configure it so I can use it.
+Need to check if I need to create a custome save function that calls super save so that signals can be sent to my reciever function.

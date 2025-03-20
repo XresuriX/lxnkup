@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_comments_xtd.models import XtdComment  # type: ignore PGH003
 
+from lxnkup.activities.models import Bookmarks
 from lxnkup.profiles.models import Profile
 from lxnkup.reports.models import Reports
 
@@ -17,6 +18,7 @@ class Comments(XtdComment):
         max_length=300,
     )
     link = models.URLField(max_length=500, blank=True, null=True)  # noqa: DJ001
+    bookmarks = GenericRelation(Bookmarks)
     reports = GenericRelation(Reports)
 
     class Meta:

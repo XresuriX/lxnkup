@@ -37,7 +37,6 @@ class Posts(CoreModel):
     # tags = TaggableManager()  # noqa: ERA001
 
     class Meta:
-        app_label = "posts"
         verbose_name = _("Post")
         verbose_name_plural = _("Posts")
         db_table_comment = "Lxnkup post model"
@@ -48,7 +47,6 @@ class Posts(CoreModel):
 
 class Reposts(Posts):
     class Meta:
-        app_label = "posts"
         verbose_name = _("Repost")
         verbose_name_plural = _("Reposts")
         db_table = "Lxnkup_reposts"

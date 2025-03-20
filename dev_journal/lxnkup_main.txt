@@ -1,0 +1,15 @@
+The purpose of this is to record my thoughts as I work on this project. I'll create a doc for each app I do work on to speak on what I did and why I did it.
+This Project is meant to be a social media site the primary means of socialization is through posts(text/multimedi/hybrid),I also want to develope it to allow streaming and online calling and multiplayer gaming.
+Big goals i know, but one step at a time.
+
+03/15/25
+Been a minute since I've updated this hopefully that'll change going forward as we are getting closer to mvp status and potential launch.
+So here's what's new:
+The projects name is lxnkup
+it is a social media app for sharing thoughts and ideas in various media forms
+it currently has core Profile users reports posts comments notifications activities medialog apps I'll explain them
+further in their own apps this doc is for explaining where I am currentlyand where I'll be going next.
+
+As of the timeof this doc being written I've made lxnkup to be a twitter clone with a twist,
+currently most of the core functionality has been implemented but due to time they havent been tested prooperly,
+I will be writing tests starting soon
