@@ -11,6 +11,7 @@ import { Plus } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useRouter } from "next/navigation"
 import { StoriesContainer } from "@/components/stories/stories-container"
+import HtmlText from "@/components/ex1"
 
 export default function Following() {
   const isAuthenticated = useAppStore((state) => state.isAuthenticated)
@@ -41,7 +42,7 @@ export default function Following() {
         <StoriesContainer />
 
         {followingPosts.length > 0 ? (
-          <div className="mt-2">
+          <><div className="mt-2">
             {followingPosts.map((post) => (
               <PostCard
                 key={post.id}
@@ -53,10 +54,9 @@ export default function Following() {
                 comments={post.comments}
                 isLiked={post.isLiked}
                 createdAt={post.createdAt}
-                showComments={true}
-              />
+                showComments={true} />
             ))}
-          </div>
+          </div><HtmlText /></>
         ) : (
           <div className="flex flex-col items-center justify-center p-8 text-center">
             <h2 className="text-xl font-bold mb-2">No posts yet</h2>

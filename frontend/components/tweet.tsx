@@ -7,6 +7,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { useTweetStore, type TweetWithAuthor } from "@/lib/store/use-tweet-store"
 import { motion } from "framer-motion"
+import HtmlText from "./ex1"
 
 interface TweetProps {
   tweet: TweetWithAuthor
@@ -36,6 +37,7 @@ export function Tweet({ tweet, onReply, onShare }: TweetProps) {
 
   return (
     <article className="border-b border-twitter-gray p-4 tweet-hover transition-colors">
+      <HtmlText/>
       <div className="flex gap-3">
         <Link href={`/profile/${tweet.author.username}`} className="flex-shrink-0">
           <Avatar src={tweet.author.avatar} name={tweet.author.name} size="md" />

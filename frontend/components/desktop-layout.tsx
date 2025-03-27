@@ -5,6 +5,7 @@ import { DesktopSidebar } from "@/components/desktop-sidebar"
 import { RightSidebar } from "@/components/right-sidebar"
 import { StatusBar } from "@/components/status-bar"
 import { useIsMobile } from "@/hooks/use-mobile"
+import HtmlText from "./ex1"
 
 interface DesktopLayoutProps {
   children: ReactNode
@@ -41,6 +42,7 @@ export function DesktopLayout({
       )}
       <div className="flex-1 min-w-0">
         {showStatusBar && <StatusBar isDesktop />}
+        <HtmlText/>
         <main className="max-w-3xl mx-auto">{children}</main>
       </div>
       {showRightSidebar && (

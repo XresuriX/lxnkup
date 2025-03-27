@@ -47,9 +47,11 @@ export default function HomePage() {
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
-            </div>
 
+            </div>
+            <HtmlText/>
             <ComposeTweet />
+
 
             {isLoading ? (
               <div className="flex justify-center items-center p-8">
@@ -59,7 +61,6 @@ export default function HomePage() {
               <div className="p-8 text-center text-muted-foreground">Something went wrong. Please try again.</div>
             ) : tweets && tweets.length > 0 ? (
               <div>
-                <App/>
                 {tweets.map((tweet) => (
                   <Tweet key={tweet.id} tweet={tweet} />
                 ))}

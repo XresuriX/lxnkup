@@ -3,9 +3,10 @@
 import { DesktopLayout } from "@/components/desktop-layout"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import Image from "next/image"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useState } from "react"
+import HtmlText from "@/components/ex1"
+import App from "@/components/newscene"
 
 export default function Welcome() {
   const isMobile = useIsMobile()
@@ -16,20 +17,13 @@ export default function Welcome() {
       <DesktopLayout showNav={false} showRightSidebar={false}>
         <div className="flex flex-col items-center justify-between min-h-[calc(100vh-44px)] p-6">
           <div className="w-full">
+
             <h1 className="text-2xl font-bold mb-2">Welcome to LxnkUp</h1>
-            <p className="text-muted-foreground mb-6">Join our community and connect with friends around the world</p>
           </div>
 
           <div className="w-full flex-1 flex items-center justify-center">
             {imageLoaded ? (
-              <Image
-                src="/placeholder.svg?height=300&width=300"
-                alt="Welcome illustration"
-                width={300}
-                height={300}
-                className="rounded-lg"
-                onError={() => setImageLoaded(false)}
-              />
+              <HtmlText/>
             ) : (
               <div className="w-[300px] h-[300px] bg-muted rounded-lg flex items-center justify-center">
                 <span className="text-muted-foreground">Image not available</span>
@@ -62,6 +56,7 @@ export default function Welcome() {
         <p className="text-xl max-w-md text-center">
           Join millions of users and share your stories, photos, and experiences.
         </p>
+        <HtmlText/>
       </div>
 
       <div className="flex flex-col justify-center items-center p-8">

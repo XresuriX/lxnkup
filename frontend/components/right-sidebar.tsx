@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { UserAvatar } from "@/components/user-avatar"
 import { Search, X } from "lucide-react"
 import Link from "next/link"
-import { ThemePicker } from "@/components/theme-picker"
+import HtmlText from "./ex1"
 
 export function RightSidebar() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -40,11 +40,7 @@ export function RightSidebar() {
       </div>
 
       <div className="bg-muted rounded-xl p-4">
-        <h2 className="font-bold text-xl mb-4">Subscribe to Premium</h2>
-        <p className="text-sm text-muted-foreground mb-4">
-          Subscribe to unlock new features and if eligible, receive a share of revenue.
-        </p>
-        <Button className="bg-brand-green hover:bg-brand-green/90 w-full">Subscribe</Button>
+        <HtmlText/>
       </div>
 
       <div className="bg-muted rounded-xl p-4">
@@ -101,10 +97,7 @@ export function RightSidebar() {
       )}
 
       <div className="pt-4 border-t">
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">Theme</p>
-          <ThemePicker />
-        </div>
+
         <p className="text-xs text-muted-foreground mt-4">© 2025 Social Media App • Privacy • Terms • Cookies</p>
       </div>
     </div>

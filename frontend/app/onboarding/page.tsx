@@ -1,6 +1,9 @@
+import HtmlText from "@/components/ex1"
 import { Logo } from "@/components/logo"
+import App from "@/components/newscene"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+
 
 export default function OnboardingPage() {
   return (
@@ -13,11 +16,14 @@ export default function OnboardingPage() {
 
           <h1 className="text-3xl font-bold mb-6">
             Welcome to <span className="gradient-text">SocialConnect</span>
+            <HtmlText/>
           </h1>
 
           <p className="text-muted-foreground mb-8">Connect with friends, share moments, and discover communities.</p>
 
           <div className="space-y-4">
+          <HtmlText/>
+          <App/>
             <Button asChild variant="gradient" className="w-full">
               <Link href="/onboarding/signup">Create an account</Link>
             </Button>

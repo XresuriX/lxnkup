@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { ArrowLeft, Mail, Lock, Eye, EyeOff } from "lucide-react"
 import { useRouter } from "next/navigation"
+import HtmlText from "@/components/ex1"
+import App from "@/components/newscene"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -40,7 +42,7 @@ export default function LoginPage() {
       <main className="flex-1 flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto">
           <div className="mb-8 flex justify-center">
-            <Logo size="md" />
+            <HtmlText/>
           </div>
 
           <h1 className="text-2xl font-bold mb-6 text-center">Log in to your account</h1>
@@ -57,8 +59,11 @@ export default function LoginPage() {
                 required
               />
             </div>
-
+            <HtmlText/>
+            <App/>
             <div className="relative">
+            <HtmlText/>
+            <App/>
               <Input
                 type={showPassword ? "text" : "password"}
                 name="password"
