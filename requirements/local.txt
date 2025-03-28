@@ -33,4 +33,4 @@ django-extensions==3.2.3  # https://github.com/django-extensions/django-extensio
 django-coverage-plugin==3.1.0  # https://github.com/nedbat/django_coverage_plugin
 pytest-django==4.10.0  # https://github.com/pytest-dev/pytest-django
 
-django-video-encoding 1.0.0
+django-video-encodin==1.0.0
