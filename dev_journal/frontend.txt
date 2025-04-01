@@ -1,0 +1,1157 @@
+LxnkUp Social Media App - Developer Onboarding Guide
+
+## Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Architecture](#architecture)
+3. [Technology Stack](#technology-stack)
+4. [Key Features](#key-features)
+5. [Development Environment Setup](#development-environment-setup)
+6. [Project Structure](#project-structure)
+7. [State Management](#state-management)
+8. [UI Components](#ui-components)
+9. [Routing & Navigation](#routing--navigation)
+10. [Authentication Flow](#authentication-flow)
+11. [Mobile Responsiveness](#mobile-responsiveness)
+12. [Theming System](#theming-system)
+13. [Testing Strategy](#testing-strategy)
+14. [Deployment Process](#deployment-process)
+15. [Known Issues & Limitations](#known-issues--limitations)
+16. [Future Improvements](#future-improvements)
+17. [Development Conventions](#development-conventions)
+18. [Resources & References](#resources--references)
+
+
+## Project Overview
+
+LxnkUp is a modern social media application built with Next.js and React. It features a responsive design that works seamlessly on both mobile and desktop devices. The application includes core social media functionality such as posts, stories, messaging, notifications, and user profiles.
+
+The project aims to provide a Twitter/Instagram-like experience with a clean, intuitive interface and real-time interactions. It's designed to be extensible and maintainable, with a focus on performance and user experience.
+
+## Architecture
+
+### Design Philosophy
+
+LxnkUp follows a component-based architecture using React and Next.js. The application is built with the following principles in mind:
+
+1. **Component Reusability**: UI elements are broken down into reusable components
+2. **Separation of Concerns**: Logic, UI, and state are separated for maintainability
+3. **Mobile-First Design**: The app is designed for mobile devices first, then scaled up for desktop
+4. **Progressive Enhancement**: Core functionality works without JavaScript, enhanced with client-side features
+
+
+### Application Flow
+
+The application follows this general flow:
+
+1. User authentication (login/register)
+2. Main feed display (posts, stories)
+3. Navigation to different sections (explore, messages, notifications, etc.)
+4. User interactions (like, comment, share, follow)
+5. Content creation (posts, stories, streams)
+
+
+### Client-Server Architecture
+
+The application uses Next.js App Router, which combines server and client components:
+
+- **Server Components**: Handle data fetching, initial rendering, and SEO
+- **Client Components**: Handle interactivity, state management, and user events
+
+
+Currently, the app uses mock data stored in Zustand, but it's designed to be easily connected to a backend API.
+
+## Technology Stack
+
+### Core Technologies
+
+- **Next.js 14**: React framework for server-rendered applications
+- **React 18**: UI library for building component-based interfaces
+- **TypeScript**: Typed JavaScript for better developer experience and code quality
+- **Tailwind CSS**: Utility-first CSS framework for styling
+
+
+### Key Packages
+
+- **next-themes**: For theme management (light/dark mode)
+- **zustand**: For state management
+- **lucide-react**: For icons
+- **@radix-ui**: For accessible UI components
+- **@jitsi/react-sdk**: For video/audio call functionality
+- **uuid**: For generating unique identifiers
+- **clsx** and **tailwind-merge**: For conditional class name management
+
+
+### Development Tools
+
+- **ESLint**: For code linting
+- **TypeScript**: For static type checking
+- **Next.js Dev Tools**: For debugging and performance monitoring
+
+
+## Key Features
+
+### Home Feed
+
+The home feed displays posts from all users or followed users, with support for:
+
+- Post rendering with images, text, and interaction counts
+- Like, comment, and share functionality
+- Stories display at the top of the feed
+- "For you" and "Following" tabs
+
+
+```typescript
+// Implementation in app/page.tsx
+export default function Home() {
+  const isAuthenticated = useAppStore((state) => state.isAuthenticated)
+  const posts = useAppStore((state) => state.posts)
+  // ...
+
+  return (
+    <DesktopLayout>
+      <div className="pb-4">
+        {/* Stories */}
+        <StoriesContainer />
+
+        {/* Posts */}
+        <div className="mt-2">
+          {posts.map((post) => (
+            <PostCard
+              key={post.id}
+              id={post.id}
+              user={post.user}
+              content={post.content}
+              image={post.image}
+              likes={post.likes}
+              comments={post.comments}
+              isLiked={post.isLiked}
+              createdAt={post.createdAt}
+              showComments={true}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile-specific floating action button */}
+      {isMobile && (
+        <Link href="/create-post" className="floating-action-button">
+          <Plus className="h-6 w-6" />
+        </Link>
+      )}
+    </DesktopLayout>
+  )
+}
+```
+
+### Stories
+
+The stories feature allows users to:
+
+- View ephemeral content from other users
+- Create their own stories with images and captions
+- Navigate through multiple story items
+- Reply to stories
+
+
+```typescript
+// Implementation in components/stories/story-viewer.tsx
+export function StoryViewer({ storyId }: StoryViewerProps) {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [progress, setProgress] = useState(0)
+  // ...
+
+  return (
+    <div className="fixed inset-0 bg-black z-50 flex flex-col">
+      {/* Progress bars */}
+      <div className="absolute top-0 left-0 right-0 z-10 flex px-2 pt-2 gap-1">
+        {story.items?.map((_, index) => (
+          <div key={index} className="h-1 bg-white/30 rounded-full flex-1 overflow-hidden">
+            {index === activeIndex && (
+              <div className="h-full bg-white rounded-full" style={{ width: `${progress}%` }} />
+            )}
+            {index < activeIndex && <div className="h-full bg-white rounded-full w-full" />}
+          </div>
+        ))}
+      </div>
+
+      {/* Story content and navigation */}
+      {/* ... */}
+    </div>
+  )
+}
+```
+
+### Messaging
+
+The messaging system includes:
+
+- Conversation list
+- One-on-one chat interface
+- Audio and video calling using Jitsi
+- Message status indicators
+
+
+```typescript
+// Implementation in app/messages/[id]/page.tsx
+export default function ChatDetail() {
+  const params = useParams()
+  const id = params.id as string
+  const conversations = useAppStore((state) => state.conversations)
+  const conversation = conversations.find((c) => c.id === id)
+  const [message, setMessage] = useState("")
+
+  // ...
+
+  return (
+    <MobileLayout showNav={false}>
+      <div className="flex flex-col h-[calc(100vh-44px)]">
+        {/* Chat header */}
+        <div className="border-b p-3 flex items-center gap-3">
+          {/* ... */}
+        </div>
+
+        {/* Chat messages */}
+        <div className="flex-1 overflow-y-auto p-4">
+          {/* ... */}
+        </div>
+
+        {/* Message input */}
+        <form onSubmit={handleSendMessage} className="border-t p-3 flex items-center gap-2">
+          {/* ... */}
+        </form>
+      </div>
+    </MobileLayout>
+  )
+}
+```
+
+### Live Streaming
+
+The app includes live streaming functionality:
+
+- Stream creation
+- Stream viewing with real-time chat
+- Stream discovery
+- Stream controls (audio/video muting)
+
+
+```typescript
+// Implementation in app/streams/[id]/page.tsx
+export default function StreamDetail() {
+  // ...
+
+  return (
+    <MobileLayout showNav={false} showStatusBar={false}>
+      <Script src="https://meet.jit.si/external_api.js" strategy="lazyOnload" onLoad={() => setIsJitsiLoaded(true)} />
+
+      <div className="flex flex-col h-screen bg-black">
+        {isJitsiLoaded ? (
+          <div className="flex-1 relative">
+            <JitsiMeeting
+              domain="meet.jit.si"
+              roomName={roomName}
+              configOverwrite={{
+                startWithAudioMuted: isAudioMuted,
+                startWithVideoMuted: isVideoMuted,
+                prejoinPageEnabled: false,
+                disableDeepLinking: true,
+                toolbarButtons: [],
+              }}
+              // ...
+            />
+          </div>
+        ) : (
+          <div className="flex-1 flex items-center justify-center">
+            <p className="text-white">Connecting to stream...</p>
+          </div>
+        )}
+
+        {/* Stream controls */}
+        {/* ... */}
+      </div>
+    </MobileLayout>
+  )
+}
+```
+
+### Responsive Layouts
+
+The app provides different layouts for mobile and desktop:
+
+- Mobile: Bottom navigation, optimized for touch
+- Desktop: Sidebar navigation, multi-column layout
+
+
+```typescript
+// Implementation in components/desktop-layout.tsx
+export function DesktopLayout({
+  children,
+  showNav = true,
+  showStatusBar = true,
+  showRightSidebar = true,
+}: DesktopLayoutProps) {
+  const isMobile = useIsMobile()
+
+  if (isMobile) {
+    return (
+      <div className="app-container">
+        <div className="mobile-screen">
+          {showStatusBar && <StatusBar />}
+          <main>{children}</main>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen flex">
+      {showNav && (
+        <div className="w-64 border-r sticky top-0 h-screen overflow-y-auto hidden md:block">
+          <DesktopSidebar />
+        </div>
+      )}
+      <div className="flex-1 min-w-0">
+        {showStatusBar && <StatusBar isDesktop />}
+        <main className="max-w-3xl mx-auto">{children}</main>
+      </div>
+      {showRightSidebar && (
+        <div className="w-80 border-l sticky top-0 h-screen overflow-y-auto hidden lg:block">
+          <RightSidebar />
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### Theming System
+
+The app supports multiple themes:
+
+- Light mode
+- Dark mode
+- High contrast mode (for accessibility)
+
+
+```typescript
+// Implementation in app/settings/themes/page.tsx
+export default function ThemeSettings() {
+  const { theme, setTheme } = useTheme()
+
+  const themes = [
+    {
+      name: "Green & Gold",
+      value: "light",
+      primary: "#2A9D8F",
+      secondary: "#E9C46A",
+      background: "#FFFFFF",
+      text: "#264653",
+    },
+    {
+      name: "Dark Mode",
+      value: "dark",
+      primary: "#2A9D8F",
+      secondary: "#E9C46A",
+      background: "#1F2937",
+      text: "#F9FAFB",
+    },
+    {
+      name: "High Contrast",
+      value: "high-contrast",
+      primary: "#000000",
+      secondary: "#FFFFFF",
+      background: "#FFFFFF",
+      text: "#000000",
+    },
+  ]
+
+  // ...
+}
+```
+
+## Development Environment Setup
+
+### Prerequisites
+
+- Node.js 18.x or later
+- npm 9.x or later
+- Git
+
+
+### Installation Steps
+
+1. Clone the repository:
+
+```shellscript
+git clone https://github.com/your-org/lxnkup.git
+cd lxnkup
+```
+
+
+2. Install dependencies:
+
+```shellscript
+npm install
+```
+
+
+3. Start the development server:
+
+```shellscript
+npm run dev
+```
+
+
+4. Open your browser and navigate to `http://localhost:3000`
+
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```plaintext
+# Authentication (for future implementation)
+NEXTAUTH_SECRET=your-secret-here
+NEXTAUTH_URL=http://localhost:3000
+
+# API URLs (for future implementation)
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+
+# Feature flags
+NEXT_PUBLIC_ENABLE_STREAMS=true
+NEXT_PUBLIC_ENABLE_STORIES=true
+```
+
+## Project Structure
+
+```plaintext
+lxnkup/
+├── app/                    # Next.js App Router pages
+│   ├── (auth)/             # Authentication routes
+│   ├── api/                # API routes (for future implementation)
+│   ├── explore/            # Explore page
+│   ├── messages/           # Messaging pages
+│   ├── notifications/      # Notifications page
+│   ├── posts/              # Post detail pages
+│   ├── profile/            # Profile pages
+│   ├── search/             # Search page
+│   ├── settings/           # Settings pages
+│   ├── stories/            # Stories pages
+│   ├── streams/            # Streaming pages
+│   ├── error.tsx           # Error boundary
+│   ├── globals.css         # Global styles
+│   ├── layout.tsx          # Root layout
+│   ├── not-found.tsx       # 404 page
+│   └── page.tsx            # Home page
+├── components/             # Reusable components
+│   ├── bottom-navigation/  # Mobile navigation
+│   ├── stories/            # Story components
+│   ├── ui/                 # UI components (shadcn/ui)
+│   ├── desktop-layout.tsx  # Desktop layout wrapper
+│   ├── desktop-sidebar.tsx # Desktop sidebar
+│   ├── mobile-layout.tsx   # Mobile layout wrapper
+│   ├── post-card.tsx       # Post component
+│   ├── right-sidebar.tsx   # Right sidebar for desktop
+│   ├── status-bar.tsx      # Status bar component
+│   ├── theme-picker.tsx    # Theme selection component
+│   ├── theme-provider.tsx  # Theme provider
+│   └── user-avatar.tsx     # User avatar component
+├── hooks/                  # Custom React hooks
+│   ├── use-mobile.tsx      # Hook for responsive design
+│   └── use-toast.ts        # Toast notification hook
+├── lib/                    # Utility functions and libraries
+│   ├── error-handler.ts    # Error handling utilities
+│   ├── store.ts            # Zustand store
+│   └── utils.ts            # General utilities
+├── public/                 # Static assets
+├── .eslintrc.json          # ESLint configuration
+├── .gitignore              # Git ignore file
+├── next.config.mjs         # Next.js configuration
+├── package.json            # Project dependencies
+├── postcss.config.js       # PostCSS configuration
+├── tailwind.config.ts      # Tailwind CSS configuration
+└── tsconfig.json           # TypeScript configuration
+```
+
+## State Management
+
+### Zustand Store
+
+The application uses Zustand for state management. The store is defined in `lib/store.ts` and includes:
+
+- User authentication state
+- Posts data
+- User profiles
+- Conversations and messages
+- Stories data
+- Streams data
+- UI state (active tab, theme, etc.)
+
+
+```typescript
+// Implementation in lib/store.ts
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      currentUser: null,
+      isAuthenticated: false,
+      posts: [
+        // Mock data
+      ],
+      users: [
+        // Mock data
+      ],
+      // ... other state
+
+      // Actions
+      setCurrentUser: (user) => set({ currentUser: user }),
+      setIsAuthenticated: (value) => set({ isAuthenticated: value }),
+      addPost: (post) => set((state) => ({ posts: [post, ...state.posts] })),
+      likePost: (postId) =>
+        set((state) => ({
+          posts: state.posts.map((post) =>
+            post.id === postId ? { ...post, isLiked: true, likes: post.likes + 1 } : post
+          ),
+        })),
+      // ... other actions
+    }),
+    {
+      name: "social-app-storage",
+    }
+  )
+)
+```
+
+### State Organization
+
+The state is organized into:
+
+1. **Entity Data**: Users, posts, comments, messages, etc.
+2. **UI State**: Active tab, theme preferences, etc.
+3. **Authentication State**: Current user, authentication status
+4. **Actions**: Functions to modify the state
+
+
+### Persistence
+
+The store uses Zustand's `persist` middleware to save state to localStorage, allowing the app to maintain state between page refreshes.
+
+## UI Components
+
+### Component Library
+
+The project uses a combination of:
+
+- **shadcn/ui**: For base components like buttons, inputs, etc.
+- **Custom components**: For app-specific UI elements
+- **Tailwind CSS**: For styling all components
+
+
+### Key UI Components
+
+1. **PostCard**: Displays a social media post with interactions
+2. **UserAvatar**: Shows user avatars with fallback initials
+3. **BottomNav**: Mobile navigation bar
+4. **DesktopSidebar**: Desktop navigation sidebar
+5. **StoriesContainer**: Horizontal scrolling stories list
+6. **StoryViewer**: Full-screen story viewing experience
+
+
+### Component Design Philosophy
+
+Components follow these principles:
+
+1. **Self-contained**: Each component handles its own state and styling
+2. **Prop-driven**: Configuration through props for flexibility
+3. **Responsive**: Adapts to different screen sizes
+4. **Accessible**: Follows accessibility best practices
+
+
+### Example Component Structure
+
+```typescript
+// Example component structure
+interface ComponentProps {
+  // Props definition
+}
+
+export function Component({ prop1, prop2, ... }: ComponentProps) {
+  // State hooks
+  const [state, setState] = useState()
+
+  // Effect hooks
+  useEffect(() => {
+    // Side effects
+  }, [dependencies])
+
+  // Event handlers
+  const handleEvent = () => {
+    // Event handling logic
+  }
+
+  // Render
+  return (
+    <div className="...">
+      {/* Component JSX */}
+    </div>
+  )
+}
+```
+
+## Routing & Navigation
+
+### Next.js App Router
+
+The project uses Next.js App Router for routing:
+
+- **File-based routing**: Pages defined by files in the `app` directory
+- **Dynamic routes**: Routes with parameters like `[id]`
+- **Layouts**: Shared layouts for groups of pages
+- **Loading states**: Loading UI for async data fetching
+
+
+### Navigation Structure
+
+1. **Mobile Navigation**: Bottom tab bar with icons for main sections
+2. **Desktop Navigation**: Left sidebar with text labels and icons
+3. **In-app Navigation**: Links and buttons for navigating between related pages
+
+
+### Route Groups
+
+The app uses route groups for organizing related pages:
+
+- `/`: Home feed
+- `/explore`: Discover content
+- `/messages`: Messaging and calls
+- `/notifications`: User notifications
+- `/profile`: User profile
+- `/settings`: App settings
+- `/stories`: Stories viewing and creation
+- `/streams`: Live streaming
+
+
+### Navigation Implementation
+
+```typescript
+// Mobile navigation in components/bottom-navigation/bottom-nav.tsx
+export function BottomNav({ className }: BottomNavProps) {
+  const pathname = usePathname()
+  const isMobile = useIsMobile()
+
+  // ...
+
+  const navItems = [
+    { icon: Home, label: "Home", path: "/" },
+    { icon: Search, label: "Search", path: "/search" },
+    { icon: PlusSquare, label: "Create", path: "/create-post" },
+    { icon: Bell, label: "Alerts", path: "/notifications" },
+    { icon: Play, label: "Streams", path: "/streams" },
+    { icon: User, label: "Profile", path: "/profile" },
+  ]
+
+  return (
+    <nav className={/* ... */}>
+      <div className="max-w-md mx-auto flex items-center justify-between px-1">
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            href={item.path}
+            className={/* ... */}
+            onClick={() => setActiveTab(item.label.toLowerCase())}
+            aria-current={isActive(item.path) ? "page" : undefined}
+          >
+            {/* ... */}
+          </Link>
+        ))}
+      </div>
+    </nav>
+  )
+}
+```
+
+## Authentication Flow
+
+### Current Implementation
+
+The current authentication is simulated using Zustand state:
+
+1. User enters credentials on the login page
+2. The app sets `isAuthenticated` to true in the store
+3. The app redirects to the home page
+4. Protected routes check `isAuthenticated` and redirect if false
+
+
+```typescript
+// Implementation in app/login/page.tsx
+export default function Login() {
+  // ...
+
+  const handleLogin = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault()
+
+      if (!email || !password) {
+        return
+      }
+
+      try {
+        setIsLoading(true)
+
+        // In a real app, we would validate and authenticate
+        // For demo purposes, we'll just set isAuthenticated to true
+        setCurrentUser({
+          id: "current-user",
+          name: "Current User",
+          username: "currentuser",
+          avatar: "/placeholder.svg?height=100&width=100",
+        })
+
+        setIsAuthenticated(true)
+        router.push("/")
+      } catch (error) {
+        console.error("Login error:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [email, password, setCurrentUser, setIsAuthenticated, router],
+  )
+
+  // ...
+}
+```
+
+### Future Authentication Implementation
+
+For a production implementation, we recommend:
+
+1. **NextAuth.js**: For authentication with various providers
+2. **JWT**: For secure token-based authentication
+3. **Protected API Routes**: For secure data access
+4. **Middleware**: For protecting routes at the edge
+
+
+## Mobile Responsiveness
+
+### Responsive Design Strategy
+
+The app follows a mobile-first approach:
+
+1. Base styles are designed for mobile devices
+2. Media queries add desktop-specific styles
+3. Different layouts are used for mobile and desktop
+4. Touch-friendly UI on mobile, more detailed UI on desktop
+
+
+### Responsive Detection
+
+The app uses a custom hook to detect mobile devices:
+
+```typescript
+// Implementation in hooks/use-mobile.tsx
+export function useIsMobile() {
+  // Default to false to avoid hydration mismatch
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    // Only run on client side
+    if (typeof window === "undefined") return
+
+    // Check if the window width is less than 768px
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    // Set initial value
+    checkIsMobile()
+
+    // Add event listener for window resize
+    window.addEventListener("resize", checkIsMobile)
+
+    // Clean up event listener
+    return () => window.removeEventListener("resize", checkIsMobile)
+  }, [])
+
+  return isMobile
+}
+```
+
+### Responsive Layout Components
+
+The app uses different layout components based on screen size:
+
+- `MobileLayout`: For mobile devices
+- `DesktopLayout`: For desktop devices
+
+
+```typescript
+// Usage in page components
+export default function SomePage() {
+  const isMobile = useIsMobile()
+
+  return (
+    <DesktopLayout>
+      {/* Content adapts based on isMobile value */}
+      {isMobile ? (
+        <MobileSpecificContent />
+      ) : (
+        <DesktopSpecificContent />
+      )}
+    </DesktopLayout>
+  )
+}
+```
+
+## Theming System
+
+### Theme Implementation
+
+The app uses `next-themes` for theme management:
+
+1. **Theme Provider**: Wraps the application to provide theme context
+2. **Theme Switcher**: UI for changing themes
+3. **CSS Variables**: Theme colors defined as CSS variables
+4. **Tailwind Integration**: Theme colors mapped to Tailwind classes
+
+
+```typescript
+// Implementation in components/theme-provider.tsx
+export function ThemeProvider({ children, ...props }: ExtendedThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}
+
+// Usage in app/layout.tsx
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+### Theme Configuration
+
+Themes are defined in `tailwind.config.ts` and `globals.css`:
+
+```css
+/* Implementation in app/globals.css */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 162 55% 39%;
+    /* ... other variables */
+  }
+
+  [data-theme="dark"] {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    /* ... other variables */
+  }
+
+  [data-theme="high-contrast"] {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    /* ... other variables */
+  }
+}
+```
+
+## Testing Strategy
+
+### Current Testing Status
+
+The project currently has minimal testing. We recommend implementing:
+
+1. **Unit Tests**: For individual components and utilities
+2. **Integration Tests**: For component interactions
+3. **E2E Tests**: For full user flows
+
+
+### Recommended Testing Setup
+
+1. **Jest**: For unit and integration tests
+2. **React Testing Library**: For component testing
+3. **Cypress**: For end-to-end testing
+4. **MSW**: For mocking API requests
+
+
+### Example Test Implementation
+
+```typescript
+// Example component test
+import { render, screen, fireEvent } from '@testing-library/react'
+import { PostCard } from './post-card'
+
+describe('PostCard', () => {
+  const mockPost = {
+    id: '1',
+    user: {
+      id: '1',
+      name: 'Test User',
+      username: 'testuser',
+      avatar: '/test-avatar.jpg',
+    },
+    content: 'Test post content',
+    image: '/test-image.jpg',
+    likes: 10,
+    comments: 5,
+    isLiked: false,
+    createdAt: '1h ago',
+  }
+
+  it('renders post content correctly', () => {
+    render(<PostCard {...mockPost} />)
+
+    expect(screen.getByText('Test User')).toBeInTheDocument()
+    expect(screen.getByText('Test post content')).toBeInTheDocument()
+    expect(screen.getByText('10')).toBeInTheDocument() // Likes count
+  })
+
+  it('handles like interaction', () => {
+    const handleLike = jest.fn()
+    render(<PostCard {...mockPost} onLike={handleLike} />)
+
+    fireEvent.click(screen.getByLabelText('Like'))
+    expect(handleLike).toHaveBeenCalledWith('1')
+  })
+})
+```
+
+## Deployment Process
+
+### Deployment Options
+
+The app can be deployed using:
+
+1. **Vercel**: Recommended for Next.js applications
+2. **Netlify**: Alternative deployment platform
+3. **Self-hosted**: Using Node.js server
+
+
+### Vercel Deployment Steps
+
+1. Connect your GitHub repository to Vercel
+2. Configure environment variables
+3. Deploy the application
+4. Set up custom domain (optional)
+
+
+### Build Process
+
+The build process includes:
+
+1. TypeScript compilation
+2. Next.js build optimization
+3. Static asset optimization
+4. CSS minification
+
+
+```shellscript
+# Build command
+npm run build
+
+# Start production server
+npm start
+```
+
+## Known Issues & Limitations
+
+### Current Limitations
+
+1. **Mock Data**: The app currently uses mock data instead of a real backend
+2. **Authentication**: Simple authentication without proper security
+3. **Performance**: Some components may need optimization for large datasets
+4. **Accessibility**: Some components need accessibility improvements
+5. **Testing**: Limited test coverage
+
+
+### Error Handling
+
+The app includes basic error handling:
+
+- Global error boundary in `app/error.tsx`
+- Error handling utility in `lib/error-handler.ts`
+- Try/catch blocks in async operations
+
+
+```typescript
+// Implementation in lib/error-handler.ts
+export function handleError(error: unknown, fallbackMessage = "An error occurred", logToConsole = true): string {
+  // Get the error message
+  const errorMessage = error instanceof Error ? error.message : typeof error === "string" ? error : fallbackMessage
+
+  // Log the error to the console in development
+  if (logToConsole && process.env.NODE_ENV !== "production") {
+    console.error("Error:", error)
+  }
+
+  return errorMessage
+}
+```
+
+## Future Improvements
+
+### Recommended Enhancements
+
+1. **Backend Integration**:
+
+1. Implement a real backend API (Node.js, Express, MongoDB)
+2. Replace mock data with real data fetching
+3. Add proper authentication with NextAuth.js
+
+
+
+2. **Performance Optimizations**:
+
+1. Implement virtualized lists for long feeds
+2. Add image optimization with Next.js Image component
+3. Implement code splitting for large components
+
+
+
+3. **Feature Enhancements**:
+
+1. Add real-time updates with WebSockets
+2. Implement push notifications
+3. Add media upload functionality
+4. Enhance search with filters and suggestions
+
+
+
+4. **Testing & Quality**:
+
+1. Add comprehensive test suite
+2. Implement CI/CD pipeline
+3. Add performance monitoring
+4. Improve accessibility compliance
+
+
+
+5. **UX Improvements**:
+
+1. Add animations and transitions
+2. Implement skeleton loading states
+3. Add offline support with service workers
+4. Enhance error messages and feedback
+
+
+
+
+
+### Recommended Packages
+
+1. **Backend & API**:
+
+1. `axios` or `swr`: For API requests
+2. `next-auth`: For authentication
+3. `react-query`: For data fetching and caching
+
+
+
+2. **UI Enhancements**:
+
+1. `framer-motion`: For animations
+2. `react-virtualized` or `react-window`: For virtualized lists
+3. `react-dropzone`: For file uploads
+4. `date-fns`: For date formatting
+
+
+
+3. **Testing & Quality**:
+
+1. `jest` and `@testing-library/react`: For testing
+2. `cypress`: For E2E testing
+3. `eslint-plugin-jsx-a11y`: For accessibility linting
+4. `lighthouse-ci`: For performance monitoring
+
+
+
+
+
+## Development Conventions
+
+### Code Style
+
+The project follows these conventions:
+
+1. **TypeScript**: Strong typing for all components and functions
+2. **Component Structure**: Client components marked with "use client", server components as default
+3. **File Naming**: Kebab-case for files, PascalCase for components
+4. **CSS**: Tailwind utility classes, organized by layout, spacing, typography, etc.
+
+
+### Git Workflow
+
+Recommended Git workflow:
+
+1. **Feature Branches**: Create branches for new features
+2. **Pull Requests**: Submit PRs for code review
+3. **Conventional Commits**: Use conventional commit messages
+4. **CI/CD**: Run tests and linting on PRs
+
+
+### Documentation
+
+Code documentation practices:
+
+1. **JSDoc**: For functions and components
+2. **README**: For project overview and setup
+3. **Inline Comments**: For complex logic
+4. **Type Definitions**: For data structures and props
+
+
+## Resources & References
+
+### Official Documentation
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://reactjs.org/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Zustand Documentation](https://github.com/pmndrs/zustand)
+
+
+### Component Libraries
+
+- [shadcn/ui Components](https://ui.shadcn.com/)
+- [Radix UI Primitives](https://www.radix-ui.com/docs/primitives)
+- [Lucide Icons](https://lucide.dev/icons)
+
+
+### Learning Resources
+
+- [Next.js App Router Tutorial](https://nextjs.org/learn)
+- [React Hooks Documentation](https://reactjs.org/docs/hooks-intro.html)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [Tailwind CSS Screencasts](https://tailwindcss.com/screencasts)
+
+
+### Community Support
+
+- [Next.js GitHub Discussions](https://github.com/vercel/next.js/discussions)
+- [React Dev Community](https://reactjs.org/community/support.html)
+- [Stack Overflow - Next.js](https://stackoverflow.com/questions/tagged/next.js)
+- [Stack Overflow - React](https://stackoverflow.com/questions/tagged/reactjs)
+
+
+## Conclusion
+
+This guide provides a comprehensive overview of the LxnkUp social media application. As a new developer joining the project, you should now have a solid understanding of the architecture, key features, and development practices.
+
+The application is built with modern web technologies and follows best practices for React and Next.js development. While there are areas for improvement, the current implementation provides a solid foundation for a social media platform.
+
+We encourage you to explore the codebase, run the application locally, and contribute to its development. If you have any questions or need further clarification, please reach out to the team.
+
+Happy coding!

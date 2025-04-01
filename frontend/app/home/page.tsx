@@ -49,7 +49,7 @@ export default function HomePage() {
               </Tabs>
 
             </div>
-            <HtmlText/>
+
             <ComposeTweet />
 
 
