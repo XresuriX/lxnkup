@@ -88,7 +88,6 @@ THIRD_PARTY_APPS = [
     "django_comments_xtd",
     "django_comments",
     "corsheaders",
-    "video_encoding",
 ]
 
 LOCAL_APPS = [
