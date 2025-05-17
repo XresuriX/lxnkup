@@ -86,7 +86,7 @@ ACTSTREAM_SETTINGS = {
 }
 
 # Configure the notifications
-NOTIFICATIONS_NOTIFICATION_MODEL = "lxnkup.notifications.Notification"
+# NOTIFICATIONS_NOTIFICATION_MODEL = "lxnkup.notifications.Notification"  # noqa: ERA001
 
 # Configure the commentsxtd
 COMMENTS_APP = "django_comments_xtd"
