@@ -33,6 +33,6 @@ django-model-utils==5.0.0
 pytz==2025.2
 django-taggit==6.1.0
 django-comments-xtd==2.10.5
-django-ninja-jwt[crypto]==5.3.5
+django-ninja-jwt[crypto]==5.3.9
 django-cors-headers==4.7.0
 loguru==0.7.3
