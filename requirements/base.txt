@@ -21,7 +21,7 @@ crispy-bootstrap5==2024.10  # https://github.com/django-crispy-forms/crispy-boot
 django-redis==5.4.0  # https://github.com/jazzband/django-redis
 django-extensions==3.2.3
 django-ninja-extra==0.30.0
-django-ninja==1.4.1
+django-ninja==1.4.5
 django-photologue==3.18
 ninja-schema==0.14.1
 django-notifications-hq==1.8.3
